@@ -52,7 +52,11 @@ type codecClient struct {
 	RemoteCloseFlag           bool
 }
 
-func NewHTTP1CodecClient(context context.Context, host types.HostInfo) str.CodecClient {
+// newHTTP1CodecClient creates a specialized codec-client for HTTP/1.X
+// the difference between HTTP/1.X and other protocols is the ownership of connection management
+// standard : [connpool] -manage->  [connections] -usedby-> [codec-client]
+// HTTP/1.X : [connpool] -build-> [codec-client] -has-> [fasthttp.HostClient] -manage-> [connnections]
+func newHTTP1CodecClient(context context.Context, host types.HostInfo) str.CodecClient {
 	codecClient := &codecClient{
 		client: &fasthttp.HostClient{
 			Addr:          host.AddressString(),

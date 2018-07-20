@@ -34,6 +34,10 @@ type connPool struct {
 	host           types.Host
 }
 
+// NewConnPool create a new connection pool with specified host
+// as HTTP/2 supports multiplexing, multi streams can be concurrently processed in one connection
+// so in usual case, only one primary conneciton is used, with another draining connection for rollover case
+// which may caused by 'MaxRequestPerConn' config.(this is not implemented yet)
 func NewConnPool(host types.Host) types.ConnectionPool {
 	return &connPool{
 		host: host,

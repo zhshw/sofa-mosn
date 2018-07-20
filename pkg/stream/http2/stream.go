@@ -295,7 +295,7 @@ func (s *clientStream) AppendData(data types.IoBuffer, endStream bool) error {
 	}
 
 	s.request.Method = http.MethodPost
-	s.request.Body = &IoBufferReadCloser{
+	s.request.Body = &ioBufferReadCloser{
 		buf: data,
 	}
 
@@ -440,7 +440,7 @@ func (s *serverStream) AppendData(data types.IoBuffer, endStream bool) error {
 		s.response = new(http.Response)
 	}
 
-	s.response.Body = &IoBufferReadCloser{
+	s.response.Body = &ioBufferReadCloser{
 		buf: data,
 	}
 
@@ -537,15 +537,15 @@ func decodeHeader(in map[string][]string) (out map[string]string) {
 }
 
 // io.ReadCloser
-type IoBufferReadCloser struct {
+type ioBufferReadCloser struct {
 	buf types.IoBuffer
 }
 
-func (rc *IoBufferReadCloser) Read(p []byte) (n int, err error) {
+func (rc *ioBufferReadCloser) Read(p []byte) (n int, err error) {
 	return rc.buf.Read(p)
 }
 
-func (rc *IoBufferReadCloser) Close() error {
+func (rc *ioBufferReadCloser) Close() error {
 	rc.buf.Reset()
 	return nil
 }

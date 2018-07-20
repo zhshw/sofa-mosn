@@ -33,6 +33,8 @@ type connPool struct {
 	initClient sync.Once
 }
 
+// NewConnPool create a new connection pool with specified host
+// but in this case(HTTP/1.X), the actual management of connections is done by the fasthttp.HostClient
 func NewConnPool(host types.Host) types.ConnectionPool {
 	return &connPool{
 		host: host,
@@ -153,7 +155,7 @@ func newActiveClient(context context.Context, pool *connPool) *activeClient {
 	//data := pool.host.CreateConnection(context)
 	//data.Connection.Connect(false)
 
-	codecClient := NewHTTP1CodecClient(context, pool.host)
+	codecClient := newHTTP1CodecClient(context, pool.host)
 	codecClient.AddConnectionCallbacks(ac)
 	codecClient.SetCodecClientCallbacks(ac)
 	codecClient.SetCodecConnectionCallbacks(ac)
