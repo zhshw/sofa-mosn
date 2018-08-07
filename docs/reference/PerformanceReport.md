@@ -27,6 +27,7 @@ ab -n $RPC -c $CPC -p 1k.txt -T "text/plain" -k http://11.166.161.136:12200/tcp_
 ```
 
 ## mesh 运行机器规格
+mesh 运行在容器中，其中 CPU 为独享的一个逻辑核，具体规格如下：
 
 | 类别 | 信息 | 
 | -------- | -------- | 
@@ -34,7 +35,6 @@ ab -n $RPC -c $CPC -p 1k.txt -T "text/plain" -k http://11.166.161.136:12200/tcp_
 | CPU   | Intel(R) Xeon(R) CPU E5-2650 v2 @ 2.60GHz X 1 |
 
 ## upstream 运行机器规格
-
 | 类别 | 信息 | 
 | -------- | -------- | 
 | OS    | 2.6.32-431.17.1.el6.FASTSOCKET    |
